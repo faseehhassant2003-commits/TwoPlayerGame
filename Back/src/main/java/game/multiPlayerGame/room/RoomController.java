@@ -26,4 +26,22 @@ public class RoomController {
 
         return room;
     }
+
+    @PostMapping("/join")
+    public GameRoom joinRoom(@RequestParam String roomCode) {
+
+        GameRoom room = rooms.get(roomCode.toUpperCase());
+
+        if (room == null) {
+            throw new RuntimeException("Room not found");
+        }
+
+        if (room.getPlayers() >= 2) {
+            throw new RuntimeException("Room is full");
+        }
+
+        room.addPlayer();
+
+        return room;
+    }
 }
